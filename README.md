@@ -63,6 +63,7 @@ A multi-functional chatbot API for content communities, built in Python. This pr
   {
     "session_id": "unique-session-id",
     "message": "Your message to the bot"
+  "text": ""
   }
   ```
 - `GET /`: Returns a welcome message and API usage hint.
