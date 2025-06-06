@@ -1,29 +1,64 @@
 PROMPTS = {
     "summary": {
         "system_instruction": "You are a helpful assistant specialized in summarizing text.",
-        "prompt": "Summarize the following article in 3–5 concise bullet points, focusing on the main arguments and conclusions.\n\nARTICLE:\n---\n{text}\n---",
+        "prompt": "Summarize the following text that should be an article or an insightful comment in 3–5 concise bullet points, focusing on the main arguments and conclusions.\n\nText:\n---\n{text}\n---",
         "max_tokens": 150
     },
     "suggest_topics": {
-        "system_instruction": "You are a content strategist.",
-        "prompt": "Act as a content strategist. Based on the following article, suggest 3 new, engaging blog post topics. For each topic, provide a brief (1-2 sentence) explanation of the angle or what it would cover. Format the output as a numbered list.\n\nARTICLE:\n---\n{text}\n---",
-        "max_tokens": 200
-    },
+    "system_instruction": "You are a content strategist.",
+    "prompt": (
+        "Act as a content strategist. Based on the following article, suggest 5 new, engaging blog post topics. "
+        "For each topic, provide:\n"
+        "1. The topic as a bolded title.\n"
+        "2. A brief (1-2 sentence) explanation of the angle or what it would cover.\n\n"
+        "Format your response as a numbered list, with each item structured as follows:\n"
+        "1. **Topic Title**: Explanation\n"
+        "2. **Topic Title**: Explanation\n"
+        "3. **Topic Title**: Explanation\n\n"
+
+        "Extra guidelines:\n"
+        "- Ensure the topics are relevant to the article's content.\n"
+        "- Focus on unique angles or perspectives that would interest readers.\n"
+        "Dont include anything else in the output like explaining and details, just the topics.\n\n"
+        "ARTICLE:\n---\n{text}\n---"
+    ),
+    "max_tokens": 200
+},
     "question_answering": {
         "system_instruction": "You are an expert Q&A assistant.",
         "prompt": "You are a helpful assistant. Answer the following question based *only* on the provided article context. If the answer is not in the article, state that clearly and do not provide an answer from your own knowledge.\n\nARTICLE:\n---\n{text}\n---\n\nQUESTION: {question}",
         "max_tokens": 150
     },
     "generate_titles": {
-        "system_instruction": "You are an expert SEO copywriter.",
-        "prompt": "You are an expert SEO copywriter. Generate 5 compelling, keyword-rich titles for an article about: '{description}'. The titles should be catchy and suitable for the target audience.",
-        "max_tokens": 150
-    },
+    "system_instruction": "You are an expert SEO copywriter.",
+    "prompt": (
+        "You are an expert SEO copywriter. Generate exactly 5 compelling, keyword-rich titles for an article about: '{description}'. "
+        "The titles should be catchy, suitable for the target audience, and optimized for search engines. "
+        "Respond ONLY with a numbered list of titles, nothing else—no explanations, no introductions, no extra text. "
+        "Format:\n"
+        "1. Title One\n"
+        "2. Title Two\n"
+        "3. Title Three\n"
+        "4. Title Four\n"
+        "5. Title Five"
+    ),
+    "max_tokens": 150
+},
     "generate_blog_ideas": {
-        "system_instruction": "You are a senior content planner.",
-        "prompt": "Act as a senior content planner. Based on the title '{title}' and the context '{description}', generate 5 distinct blog post ideas. Each idea should present a unique angle or structure. Format as a numbered list.",
-        "max_tokens": 500
-    },
+    "system_instruction": "You are a senior content planner.",
+    "prompt": (
+        "Act as a senior content planner. Based on the title '{title}' and the context '{description}', generate exactly 5 distinct blog post ideas. "
+        "Each idea should present a unique angle or structure. "
+        "Respond ONLY with a numbered list, no introductions or explanations. "
+        "Format each item as:\n"
+        "1. **Idea Title**: Brief explanation\n"
+        "2. **Idea Title**: Brief explanation\n"
+        "3. **Idea Title**: Brief explanation\n"
+        "4. **Idea Title**: Brief explanation\n"
+        "5. **Idea Title**: Brief explanation"
+    ),
+    "max_tokens": 500
+},
     "generate_article": {
         "system_instruction": "You are a professional blog writer.",
         "prompt": """Act as an expert blog writer with strong SEO knowledge. Your task is to write a complete, high-quality blog post.
