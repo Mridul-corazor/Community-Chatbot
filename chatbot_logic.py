@@ -7,7 +7,6 @@ class ArticleWriterModule:
     def __init__(self):
         self.stage = "idle"
         self.context = {}
-
     def reset(self):
         self.stage = "idle"
         self.context = {}
@@ -35,6 +34,7 @@ class ArticleWriterModule:
 
         elif self.stage == "awaiting_blog_choice":
             self.context["chosen_blog"] = user_msg
+            self.context["blog_idea"] = user_msg  # <-- Add this line
             self.stage = "generating_final_article"
             return self._generate_article()
 
@@ -53,9 +53,15 @@ class ArticleWriterModule:
         return f"Excellent. Now, here are 5 blog ideas based on that title. Please pick one to develop:\n\n{ideas}"
 
     def _generate_article(self):
-        article = call_gemini("generate_article", context_vars=self.context)
+        # Prepare context for the prompt
+        context_vars = {
+            "title": self.context.get("title", ""),
+            "blog_idea": self.context.get("chosen_blog", ""),
+            "description": self.context.get("description", "")
+        }
+        article = call_gemini("generate_article", context_vars=context_vars)
         final_response = f"**Here is your complete article:**\n\n---\n\n{article}"
-        self.reset() # Reset for the next use
+        self.reset()  # Reset for the next use
         return final_response
 
 # === Intent Detection ===
@@ -66,7 +72,7 @@ def detect_intent(msg: str):
     return "qa" # Default fallback
 
 # === Main Chat Engine Function ===
-def get_bot_response(user_msg: str, writer_module: ArticleWriterModule) -> str:
+def get_bot_response(user_msg: str,text: str,writer_module: ArticleWriterModule) -> str:
     """
     Determines the user's intent and gets the appropriate response.
     This is the main entry point for the logic.
@@ -84,8 +90,8 @@ def get_bot_response(user_msg: str, writer_module: ArticleWriterModule) -> str:
     intent = detect_intent(user_msg)
     
     if intent == "summary":
-        return call_gemini("summary", context_vars={"text": ARTICLE})
+        return call_gemini("summary", context_vars={"text": text})
     elif intent == "topic":
-        return call_gemini("suggest_topics", context_vars={"text": ARTICLE})
+        return call_gemini("suggest_topics", context_vars={"text": text})
     else: # Default to Q&A
-        return call_gemini("question_answering", context_vars={"text": ARTICLE, "question": user_msg})
+        return call_gemini("question_answering", context_vars={"text": text, "question": user_msg})
