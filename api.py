@@ -16,6 +16,7 @@ SESSIONS: Dict[str, ArticleWriterModule] = {}
 class ChatRequest(BaseModel):
     session_id: str
     message: str
+    text:str
 
 class ChatResponse(BaseModel):
     session_id: str
@@ -31,7 +32,7 @@ async def chat_with_bot(request: ChatRequest):
     """
     session_id = request.session_id
     user_message = request.message
-
+    text = request.text
     if not session_id or not user_message:
         raise HTTPException(status_code=400, detail="session_id and message are required.")
 
@@ -43,7 +44,7 @@ async def chat_with_bot(request: ChatRequest):
     writer_module = SESSIONS[session_id]
 
     # Get the bot's response using our core logic
-    bot_reply = get_bot_response(user_message, writer_module)
+    bot_reply = get_bot_response(user_message,text,writer_module)
     
     # Optional: Clean up session if the article writing process is finished
     if writer_module.stage == "idle" and "Here is your complete article" in bot_reply:
