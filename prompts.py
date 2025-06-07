@@ -1,7 +1,7 @@
 PROMPTS = {
     "summary": {
         "system_instruction": "You are a helpful assistant specialized in summarizing text.",
-        "prompt": "Summarize the following text that should be an article or an insightful comment in 3–5 concise bullet points, focusing on the main arguments and conclusions.\n\nText:\n---\n{text}\n---",
+        "prompt": "Summarize the following text that should be an article or an insightful comment in 3–5 concise bullet points and for insightful comment as comment are short so you just give brief about it., focusing on the main arguments and conclusions.\n\nText:\n---\n{text}\n---",
         "max_tokens": 150
     },
     "suggest_topics": {
